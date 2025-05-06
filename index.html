@@ -40,25 +40,22 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      gap: 6vh;
       z-index: 10;
       pointer-events: none;
     }
 
-    .logo-wrapper {
-      margin-bottom: 10%;
-    }
-
     #unity-logo1 {
-      width: 40vw;
-      max-width: 280px;
+      width: 30vw;
+      max-width: 260px;
       height: auto;
-      display: block;
     }
 
     .progress-bar-wrapper {
-      width: 764px;
+      width: 70vw;
+      max-width: 764px;
       height: 40px;
-      transform: scale(0.7); /* ✅ Proportional scaling */
+      transform: scale(0.8);
       transform-origin: top center;
     }
 
@@ -83,22 +80,25 @@
       border-radius: 20px 0 0 20px;
     }
 
-    /* 🔧 Adjust scale for smaller screens */
-    @media (max-width: 1024px) {
+    @media (max-width: 768px) {
+      #unity-logo1 {
+        width: 50vw;
+        max-width: 200px;
+      }
+
       .progress-bar-wrapper {
         transform: scale(0.6);
       }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 480px) {
+      #unity-logo1 {
+        width: 55vw;
+        max-width: 180px;
+      }
+
       .progress-bar-wrapper {
         transform: scale(0.5);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .progress-bar-wrapper {
-        transform: scale(0.45);
       }
     }
   </style>
@@ -109,9 +109,7 @@
   <div id="unity-container">
     <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1"></canvas>
     <div id="unity-loading-bar">
-      <div class="logo-wrapper">
-        <img id="unity-logo1" src="logo1.png" alt="Loading Logo">
-      </div>
+      <img id="unity-logo1" src="logo1.png" alt="Loading Logo">
       <div class="progress-bar-wrapper">
         <div id="unity-progress-bar">
           <div id="unity-progress-bar-fill"></div>
