@@ -60,7 +60,7 @@
     }
 
     #unity-progress-bar {
-      margin-top: 10vh; /* ✅ consistent spacing below logo */
+      margin-top: 10vh;
       width: 702px;
       height: 70px;
       max-width: 90vw;
@@ -82,14 +82,15 @@
       border-radius: 10px 0 0 10px;
     }
 
+    /* Tablet screens */
     @media (max-width: 768px) {
       #unity-logo1 {
-        width: 60vw;
+        width: 50vw;
       }
 
       #unity-progress-bar {
-        width: 90vw;
-        height: 60px;
+        width: 85vw;
+        height: 50px;
       }
 
       #unity-progress-bar-fill {
@@ -97,12 +98,14 @@
       }
     }
 
+    /* Mobile phones */
     @media (max-width: 480px) {
       #unity-progress-bar {
-        height: 50px;
+        height: 45px;
       }
     }
 
+    /* Safari canvas fix */
     @media screen and (-webkit-min-device-pixel-ratio: 0) {
       #unity-canvas {
         background-color: #666666 !important;
