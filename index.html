@@ -13,7 +13,6 @@
       margin: 0;
       padding: 0;
       background: #666666;
-      background-color: #666666;
       overflow: hidden;
       height: 100%;
       width: 100%;
@@ -35,20 +34,20 @@
       width: 100%;
       height: 100%;
       background-color: #666666 !important;
-      background: #666666 !important;
       display: block;
     }
 
     #unity-loading-bar {
       position: absolute;
-      top: 50%;
+      top: 10vh;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       width: 100%;
+      max-width: 100vw;
       padding: 0 5vw;
       z-index: 10;
       pointer-events: none;
@@ -60,11 +59,8 @@
       height: auto;
     }
 
-    .spacer {
-      height: 8vh;
-    }
-
     #unity-progress-bar {
+      margin-top: 10vh; /* ✅ consistent spacing below logo */
       width: 702px;
       height: 70px;
       max-width: 90vw;
@@ -102,24 +98,11 @@
     }
 
     @media (max-width: 480px) {
-      .spacer {
-        height: 5vh;
-      }
-
       #unity-progress-bar {
         height: 50px;
       }
     }
 
-    /* Fix for iPhones in landscape mode */
-    @media screen and (max-width: 812px) and (orientation: landscape) {
-      #unity-loading-bar {
-        top: 40%;
-        transform: translate(-50%, -40%);
-      }
-    }
-
-    /* Safari canvas fix */
     @media screen and (-webkit-min-device-pixel-ratio: 0) {
       #unity-canvas {
         background-color: #666666 !important;
@@ -134,7 +117,6 @@
     <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1"></canvas>
     <div id="unity-loading-bar">
       <img id="unity-logo1" src="logo1.png" alt="Loading Logo">
-      <div class="spacer"></div>
       <div id="unity-progress-bar">
         <div id="unity-progress-bar-fill"></div>
       </div>
