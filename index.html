@@ -18,7 +18,8 @@
 
     #unity-container {
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: 100vw;
       height: 100vh;
     }
@@ -39,58 +40,65 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 20px;
       z-index: 10;
       pointer-events: none;
+    }
+
+    .logo-wrapper {
+      margin-bottom: 10%;
     }
 
     #unity-logo1 {
       width: 40vw;
       max-width: 280px;
       height: auto;
+      display: block;
+    }
+
+    .progress-bar-wrapper {
+      width: 764px;
+      height: 40px;
+      transform: scale(0.7); /* ✅ Proportional scaling */
+      transform-origin: top center;
     }
 
     #unity-progress-bar {
-      width: 764px;
-      max-width: 90vw;
-      height: 40px;
+      width: 100%;
+      height: 100%;
       background: url('bar.png') no-repeat center center;
       background-size: 100% 100%;
       position: relative;
       overflow: hidden;
       border-radius: 10px;
-      transform: scale(0.7); /* ✅ Scale to 70% */
-      transform-origin: top center;
     }
 
     #unity-progress-bar-fill {
       position: absolute;
-      top: 7px;
+      top: 6px;
       left: 6px;
-      height: calc(100% - 14px);
+      height: calc(100% - 12px);
       width: 0%;
       background-color: #55CAC2;
       transition: width 0.3s ease;
       border-radius: 20px 0 0 20px;
     }
 
-    @media (max-width: 768px) {
-      #unity-logo1 {
-        width: 50vw;
-        max-width: 200px;
+    /* 🔧 Adjust scale for smaller screens */
+    @media (max-width: 1024px) {
+      .progress-bar-wrapper {
+        transform: scale(0.6);
       }
-      #unity-progress-bar {
-        height: 50px;
+    }
+
+    @media (max-width: 768px) {
+      .progress-bar-wrapper {
+        transform: scale(0.5);
       }
     }
 
     @media (max-width: 480px) {
-      #unity-logo1 {
-        width: 55vw;
-        max-width: 180px;
-      }
-      #unity-progress-bar {
-        height: 40px;
+      .progress-bar-wrapper {
+        transform: scale(0.45);
       }
     }
   </style>
@@ -101,9 +109,13 @@
   <div id="unity-container">
     <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1"></canvas>
     <div id="unity-loading-bar">
-      <img id="unity-logo1" src="logo1.png" alt="Loading Logo">
-      <div id="unity-progress-bar">
-        <div id="unity-progress-bar-fill"></div>
+      <div class="logo-wrapper">
+        <img id="unity-logo1" src="logo1.png" alt="Loading Logo">
+      </div>
+      <div class="progress-bar-wrapper">
+        <div id="unity-progress-bar">
+          <div id="unity-progress-bar-fill"></div>
+        </div>
       </div>
     </div>
   </div>
