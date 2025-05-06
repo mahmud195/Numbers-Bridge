@@ -2,73 +2,65 @@
 <html lang="en-us">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="color-scheme" content="light only">
-  <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
   <title>البرتقالة الذكية</title>
+  <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
 
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      background: #666666;
-      overflow: hidden;
       height: 100%;
       width: 100%;
-      font-family: sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -webkit-text-size-adjust: none;
+      background-color: #444444;
+      overflow: hidden;
     }
 
     #unity-container {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       width: 100vw;
       height: 100vh;
-      touch-action: none;
     }
 
     #unity-canvas {
       width: 100%;
       height: 100%;
-      background-color: #666666 !important;
       display: block;
+      background-color: #444444;
     }
 
     #unity-loading-bar {
       position: absolute;
-      top: 10vh;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      width: 100%;
-      max-width: 100vw;
-      padding: 0 5vw;
+      justify-content: center;
+      gap: 20px;
       z-index: 10;
       pointer-events: none;
     }
 
     #unity-logo1 {
       width: 40vw;
-      max-width: 300px;
+      max-width: 280px;
       height: auto;
     }
 
     #unity-progress-bar {
-      margin-top: 10vh;
       width: 702px;
-      height: 70px;
       max-width: 90vw;
+      height: 70px;
       background: url('bar.png') no-repeat center center;
       background-size: 100% 100%;
       position: relative;
       overflow: hidden;
       border-radius: 10px;
+      transform: scale(0.7); /* ✅ Scale to 70% */
+      transform-origin: top center;
     }
 
     #unity-progress-bar-fill {
@@ -82,33 +74,23 @@
       border-radius: 10px 0 0 10px;
     }
 
-    /* Tablet screens */
     @media (max-width: 768px) {
       #unity-logo1 {
         width: 50vw;
+        max-width: 200px;
       }
-
       #unity-progress-bar {
-        width: 85vw;
         height: 50px;
       }
-
-      #unity-progress-bar-fill {
-        border-radius: 8px 0 0 8px;
-      }
     }
 
-    /* Mobile phones */
     @media (max-width: 480px) {
-      #unity-progress-bar {
-        height: 45px;
+      #unity-logo1 {
+        width: 55vw;
+        max-width: 180px;
       }
-    }
-
-    /* Safari canvas fix */
-    @media screen and (-webkit-min-device-pixel-ratio: 0) {
-      #unity-canvas {
-        background-color: #666666 !important;
+      #unity-progress-bar {
+        height: 40px;
       }
     }
   </style>
