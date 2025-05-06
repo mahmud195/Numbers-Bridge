@@ -111,6 +111,14 @@
       }
     }
 
+    /* Fix for iPhones in landscape mode */
+    @media screen and (max-width: 812px) and (orientation: landscape) {
+      #unity-loading-bar {
+        top: 40%;
+        transform: translate(-50%, -40%);
+      }
+    }
+
     /* Safari canvas fix */
     @media screen and (-webkit-min-device-pixel-ratio: 0) {
       #unity-canvas {
