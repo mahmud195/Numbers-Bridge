@@ -3,57 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>البرتقالة الذكية</title>
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
-    <link rel="icon" href="favicon.ico?v=1" type="image/x-icon">
-
+    <title>البرتقالة الذكية</title>
     <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
-        background-color: #444444;
-        overflow: hidden;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      #unity-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-      }
-
-      #unity-canvas {
-        display: block;
-        background: #231F20;
-        image-rendering: pixelated;
-        touch-action: none;
-      }
-
-      .canvas-centered {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100vw;
-        height: auto;
-        max-height: 100vh;
-      }
-
-      .canvas-fullscreen {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        transform: none !important;
-      }
-
       #unity-loading-bar {
         position: absolute;
         top: 50%;
@@ -118,61 +70,50 @@
     </style>
   <link rel="icon" type="image/x-icon" href="Logo.png">
 </head>
-  <body>
-    <div id="unity-container">
-      <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1"></canvas>
+  <body style="text-align: center; padding: 0; border: 0; margin: 0;">
+    <canvas id="unity-canvas" width=1920 height=1080 tabindex="-1" style="width: 1920px; height: 1080px; background: #231F20"></canvas>
 
-      <div id="unity-loading-bar">
-        <img id="unity-logo1" src="logo1.png" alt="Loading Logo">
-        <div id="unity-progress-bar">
-          <div id="unity-progress-bar-fill"></div>
-        </div>
+    <!-- ✅ Added Loading Logo and Progress Bar -->
+    <div id="unity-loading-bar">
+      <img id="unity-logo1" src="logo1.png" alt="Loading Logo">
+      <div id="unity-progress-bar">
+        <div id="unity-progress-bar-fill"></div>
       </div>
     </div>
 
     <script src="Build/Build.loader.js"></script>
     <script>
-      function updateCanvasClass() {
-        const canvas = document.getElementById("unity-canvas");
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        const isPortrait = window.innerHeight > window.innerWidth;
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
 
-        canvas.classList.remove("canvas-centered", "canvas-fullscreen");
+        var canvas = document.querySelector("#unity-canvas");
+        canvas.style.width = "100%";
+        canvas.style.height = "100%";
+        canvas.style.position = "fixed";
 
-        if (isMobile && isPortrait) {
-          canvas.classList.add("canvas-fullscreen");
-        } else {
-          canvas.classList.add("canvas-centered");
-        }
+        document.body.style.textAlign = "left";
       }
 
-      window.addEventListener("load", () => {
-        const canvas = document.getElementById("unity-canvas");
-        const loadingBar = document.getElementById("unity-loading-bar");
-        const progressBarFill = document.getElementById("unity-progress-bar-fill");
-
-        updateCanvasClass();
-        window.addEventListener("resize", updateCanvasClass);
-
-        const config = {
-          dataUrl: "Build/Build.data.unityweb",
-          frameworkUrl: "Build/Build.framework.js.unityweb",
-          codeUrl: "Build/Build.wasm.unityweb",
-          streamingAssetsUrl: "StreamingAssets",
-          companyName: "AQTAR",
-          productName: "البرتقالة الذكية",
-          productVersion: "1.0"
-        };
-
-        loadingBar.style.display = "flex";
-
-        createUnityInstance(canvas, config, (progress) => {
-          progressBarFill.style.width = (progress * 100) + "%";
-        }).then(() => {
-          loadingBar.style.display = "none";
-        }).catch((message) => {
-          alert("Unity load failed: " + message);
-        });
+      createUnityInstance(document.querySelector("#unity-canvas"), {
+        arguments: [],
+        dataUrl: "Build/Build.data.unityweb",
+        frameworkUrl: "Build/Build.framework.js.unityweb",
+        codeUrl: "Build/Build.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "AQTAR",
+        productName: "البرتقالة الذكية",
+        productVersion: "1.0"
+      }, (progress) => {
+        // ✅ Update progress bar fill
+        document.getElementById("unity-progress-bar-fill").style.width = (progress * 100) + "%";
+      }).then(() => {
+        // ✅ Hide loading bar when done
+        document.getElementById("unity-loading-bar").style.display = "none";
+      }).catch((message) => {
+        alert("Unity load failed: " + message);
       });
     </script>
   
