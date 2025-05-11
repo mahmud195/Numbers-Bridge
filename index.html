@@ -22,8 +22,8 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -32,13 +32,19 @@
 
     #unity-canvas {
       display: block;
-      max-width: 100vw;
-      max-height: 100vh;
-      width: 100%;
+      width: 100vw;
       height: auto;
+      max-height: 100vh;
       background-color: #444444;
       image-rendering: pixelated;
       touch-action: none;
+    }
+
+    /* ✅ Mobile/tablet limit to 85% height */
+    @media (max-width: 1024px) {
+      #unity-canvas {
+        max-height: 85vh;
+      }
     }
 
     #unity-loading-bar {
@@ -54,11 +60,13 @@
       z-index: 10;
       pointer-events: none;
     }
+
     #unity-logo1 {
       width: 40vw;
       max-width: 280px;
       height: auto;
     }
+
     #unity-progress-bar {
       width: 764px;
       max-width: 90vw;
@@ -72,6 +80,7 @@
       transform: scale(0.7);
       transform-origin: top center;
     }
+
     #unity-progress-bar-fill {
       position: absolute;
       top: 7px;
@@ -82,20 +91,22 @@
       transition: width 0.3s ease;
       border-radius: 20px 0 0 20px;
     }
+
     @media (max-width: 768px) {
       #unity-logo1 {
         width: 50vw;
         max-width: 200px;
       }
+
       #unity-progress-bar {
         width: 550px;
         height: 30px;
-        margin-top: 0px;
+        margin-top: 0;
       }
-       #unity-progress-bar-fill {
-          position: absolute;
-          border-radius: 5px 0 0 5px;
-        }
+
+      #unity-progress-bar-fill {
+        border-radius: 5px 0 0 5px;
+      }
     }
   </style>
 <link rel="icon" type="image/x-icon" href="Logo.png">
@@ -103,6 +114,7 @@
 <body>
   <div id="unity-container">
     <canvas id="unity-canvas" width="1920" height="1080" tabindex="-1"></canvas>
+
     <div id="unity-loading-bar">
       <img id="unity-logo1" src="logo1.png" alt="Loading Logo">
       <div id="unity-progress-bar">
@@ -130,6 +142,7 @@
       };
 
       loadingBar.style.display = "flex";
+
       const script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
@@ -150,22 +163,16 @@
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       const canvas = document.querySelector("#unity-canvas");
 
-      if (canvas) {
-        if (isMobile) {
-          canvas.style.position = "absolute";
-          canvas.style.top = "50%";
-          canvas.style.left = "50%";
-          canvas.style.transform = "translate(-50%, -50%)";
-          canvas.style.width = "100vw";
-          canvas.style.height = "auto";
-          canvas.style.maxHeight = "100vh";
-        } else {
-          canvas.style.width = "100%";
-          canvas.style.height = "100vh";
-        }
+      if (isMobile && canvas) {
+        canvas.style.position = "absolute";
+        canvas.style.top = "50%";
+        canvas.style.left = "50%";
+        canvas.style.transform = "translate(-50%, -50%)";
+        canvas.style.width = "100vw";
+        canvas.style.height = "auto";
+        canvas.style.maxHeight = "85vh";
       }
 
-      // Force fullscreen on mobile
       const enterFullscreen = () => {
         const el = document.documentElement;
         if (el.requestFullscreen) el.requestFullscreen();
