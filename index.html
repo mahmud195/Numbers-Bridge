@@ -129,14 +129,13 @@
   
 <script id="unity-fit-centered-script">
 (function() {
-  var TARGET_ASPECT = 1.777778; // width/height
+  var TARGET_ASPECT = 1.777778;
   var MOBILE_BASE_W = 1920;
   var MOBILE_BASE_H = 1080;
 
   function isMobile() {
     return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   }
-
   function vpWidth() {
     return (window.visualViewport ? Math.floor(window.visualViewport.width) : window.innerWidth);
   }
@@ -144,46 +143,51 @@
     var h = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
     return Math.floor(h);
   }
+  function isPortrait() {
+    return vpHeight() >= vpWidth();
+  }
 
   function sizeDesktop(canvas) {
     var vw = vpWidth();
     var vh = vpHeight();
-
     var viewportAspect = vw / vh;
-    var drawW, drawH;
 
+    var drawW, drawH;
     if (viewportAspect > TARGET_ASPECT) {
-      // Wider than target: height-limited
       drawH = vh;
       drawW = Math.floor(drawH * TARGET_ASPECT);
     } else {
-      // Taller/narrower: width-limited
       drawW = vw;
       drawH = Math.floor(drawW / TARGET_ASPECT);
     }
 
     canvas.style.width  = drawW + 'px';
     canvas.style.height = drawH + 'px';
-    canvas.style.transform = ''; // no scale on desktop
+    canvas.style.transform = ''; // بدون Scale
   }
 
-  function sizeMobile(canvas) {
-    // Fixed logical size
+  function sizeMobileLandscape(canvas) {
+    // مقاس منطقي ثابت + Scale موحّد لملاءمة الشاشة بالكامل مع الحفاظ على النسبة
     canvas.style.width  = MOBILE_BASE_W + 'px';
     canvas.style.height = MOBILE_BASE_H + 'px';
 
-    // Compute a uniform scale so the fixed canvas fits entirely inside viewport (letterboxed)
     var vw = vpWidth();
     var vh = vpHeight();
-
     var scaleX = vw / MOBILE_BASE_W;
     var scaleY = vh / MOBILE_BASE_H;
-    var scale  = Math.min(scaleX, scaleY); // keep whole canvas visible
-
-    // Avoid tiny sub-pixel shimmering by rounding scale to 3 decimals
-    scale = Math.max(0.001, Math.round(scale * 1000) / 1000);
+    var scale  = Math.min(scaleX, scaleY);
+    scale = Math.max(0.001, Math.round(scale * 1000) / 1000); // تقليل اهتزاز البيكسل
 
     canvas.style.transform = 'scale(' + scale + ')';
+  }
+
+  function sizeMobilePortrait(canvas) {
+    // المطلوب: املأ العرض والارتفاع بالكامل (قد يتمدد لو النسبة مختلفة)
+    var vw = vpWidth();
+    var vh = vpHeight();
+    canvas.style.transform = ''; // لا نستخدم Scale هنا
+    canvas.style.width  = vw + 'px';
+    canvas.style.height = vh + 'px';
   }
 
   function applyLayout() {
@@ -191,7 +195,7 @@
     var canvas = document.getElementById('unity-canvas') || document.querySelector('canvas');
     if (!canvas) return;
 
-    // Ensure container is a centered flex full-screen
+    // تأكيد تمركز الحاوية
     var c = container.style;
     c.position = 'fixed';
     c.inset = '0';
@@ -201,9 +205,13 @@
     c.background = '#000';
 
     if (isMobile()) {
-      sizeMobile(canvas);
+      if (isPortrait()) {
+        sizeMobilePortrait(canvas);   // **يملا العرض والارتفاع بالكامل في الـPortrait**
+      } else {
+        sizeMobileLandscape(canvas);  // Landscape موبايل: ثابت + Scale
+      }
     } else {
-      sizeDesktop(canvas);
+      sizeDesktop(canvas);            // ديسكتوب: Letterbox
     }
 
     document.body.style.overscrollBehavior = 'none';
@@ -227,7 +235,7 @@
     window.visualViewport.addEventListener('scroll', schedule, { passive: true });
   }
 
-  // Run once immediately
+  // تشغيل أولي
   applyLayout();
 })();
 </script>
